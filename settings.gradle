@@ -1,0 +1,2 @@
+rootProject.name='5.1External'
+include ':app'
