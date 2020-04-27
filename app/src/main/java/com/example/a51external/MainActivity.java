@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE_PERMISSION_WRITE_STORAGE = 10;
 
     private Random random = new Random();
 
@@ -40,15 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         final ListView listView = findViewById(R.id.listView);
-
-        int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
-            LoadTxt();  //работа с файлами
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_CODE_PERMISSION_WRITE_STORAGE);
-        }
 
         setSupportActionBar(toolbar);
 
@@ -85,26 +75,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void LoadTxt() {
+    public void Loadtxt() {
         if (isExternalStorageWriteble()) {
             File file = new File(getApplicationContext().getExternalFilesDir(null),"log.txt");
         }
     }
-
     public boolean isExternalStorageWriteble() {
         String state = Environment.getExternalStorageState();
         return Environment.DIRECTORY_PICTURES.equals(state);
     }
-
-    public void onRequestPermissionResult (int requestCode, @NonNull String[] permission, @NonNull int[] grantResult){
-        switch (requestCode) {
-            case REQUEST_CODE_PERMISSION_WRITE_STORAGE:
-                if (grantResult.length > 0
-                        && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    LoadTxt();  //работа с файлами
-                }
-        }
-    }
+    
 
     private void fillImages() {
         images.add(ContextCompat.getDrawable(MainActivity.this,
